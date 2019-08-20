@@ -10,11 +10,13 @@ const productReducer = (state = initialState, action) => {
 	switch(action.type){
 		case 'ADD_PRODUCT':
 			console.log('product added', action.product);
-			break;
+			return state;
+		case 'ADD_PRODUCT_ERROR':
+			console.log('add product error', action.err);
+			return state;
 		default:
-			break;
+			return state;
 	}
-	return state;
 };
 
 export default productReducer;

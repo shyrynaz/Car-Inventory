@@ -1,6 +1,18 @@
 export const addProduct = (product) => {
-  return(dispatch, getState) => {
+  return(dispatch, getState, {getFirebase, getFirestore}) => {
     // make async call to database
-    dispatch({type: 'ADD_PRODUCT', product});
+    const firestore = getFirestore();
+    firestore.collection('products').add({
+      ...product,
+      merchantFirstName: 'steve',
+      merchantSecondName: 'Naz',
+      merchantId: 123,
+      StartSellDate: new Date() 
+    }).then(() => {
+      dispatch({type: 'ADD_PRODUCT', product});
+    }).catch((err)=>{
+      dispatch({type: 'ADD_PRODUCT_ERROR', err})
+    })
+   
   }
 }
