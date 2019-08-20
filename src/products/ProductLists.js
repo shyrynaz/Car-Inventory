@@ -1,13 +1,12 @@
 import React from 'react';
 import ProcuctDescription from './ProductDescription';
 
-const ProductLists = () => {
+const ProductLists = ({products}) => {
   return (
     <div className="project-list section">
-      <ProcuctDescription />
-      <ProcuctDescription />
-      <ProcuctDescription />
-      <ProcuctDescription />
+     {products && products.map(product => {
+       return <ProcuctDescription product={product} key={product.id}/>
+     })}
     </div>
   )
 }
