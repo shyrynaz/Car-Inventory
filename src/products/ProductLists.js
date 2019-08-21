@@ -8,8 +8,8 @@ const ProductLists = ({ products }) => {
 			{products &&
 				products.map(product => {
 					return (
-						<Link to={`/product/${product.id}`}>
-							<ProcuctDescription product={product} key={product.id} />
+						<Link to={`/product/${product.id}`} key={product.id}>
+							<ProcuctDescription product={product}  />
 						</Link>
 					);
 				})}

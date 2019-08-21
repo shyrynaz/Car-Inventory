@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
  var firebaseConfig = {
-  apiKey: "AIzaSyAZDkYqvIfNQ3HMtTvD7aiWwDszzu6jH5c",
+  apiKey: process.env.GOOGLE_API,
   authDomain: "car-inventory-b9e77.firebaseapp.com",
   databaseURL: "https://car-inventory-b9e77.firebaseio.com",
   projectId: "car-inventory-b9e77",
