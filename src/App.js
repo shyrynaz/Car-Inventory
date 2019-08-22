@@ -6,6 +6,7 @@ import Product from './products/Product';
 import SignIn from './auth/signIn';
 import SignUp from './auth/SignUp';
 import CreateProduct from './products/CreateProduct';
+import EditProduct from "./products/EditProduct";
 function App() {
 	return (
 		<BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
 					<Route path="/login" component={SignIn} />
 					<Route path="/register" component={SignUp} />
 					<Route path="/addProduct" component={CreateProduct} />
+					<Route path="/editProduct/:id" component={EditProduct} />
 				</Switch>
 			</div>
 		</BrowserRouter>

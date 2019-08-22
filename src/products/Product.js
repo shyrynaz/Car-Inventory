@@ -7,35 +7,42 @@ import moment from "moment";
 
 const Product = props => {
 	const { product, auth } = props;
-	if (!auth.uid) return <Redirect to="/login" />;
+	console.log(product);
+  if (!auth.uid) return <Redirect to="/login" />;
 	if (product) {
 		return (
 			<div className="container section project-details">
 				<div className="card z-depth-2">
 					<div className="card-image">
 						<img src={product.url} alt="Product" />
-						<button className="btn-floating halfway-fab waves-effect waves-light blue">
-							<i className="material-icons">edit</i>
-						</button>
 					</div>
 					<div className="card-content">
-						<span className="card-title">{product.productName}</span>
+						<span className="card-title">
+							<b>{product.productName}</b>
+						</span>
 						<p>{product.productDetails}</p>
 					</div>
-					<div className="card-action grey lighten-4 grey-text">
-						<div>
-							Posted BY {product.merchantFirstName} {product.merchantSecondName}
+					<div className="card-action row grey lighten-4 black-text">
+						<div className="col s3">
+							<b>Model:</b> {product.model}
 						</div>
-						<div> Date: {moment(product.StartSellDate.toDate()).format("ll")}</div>
+						<div className="col s3">
+							<b>Year:</b> {product.year}
+						</div>
+						<div className="col s3">
+							<b>Color: </b>
+							{product.color}
+						</div>
+						<div className="col s3">
+							{" "}
+							<b>Date:</b> {moment(product.StartSellDate.toDate()).format("ll")}
+						</div>
 					</div>
 				</div>
 			</div>
 		);
 	} else {
-		return (
-			<div className="container center">
-				<p>Loading...</p>
-			</div>
+		return (<Redirect to="/" />
 		);
 	}
 };

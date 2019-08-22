@@ -12,7 +12,7 @@ const Navbar = props => {
 		<nav className="nav-wrapper blue darken-3">
 			<div className="container">
 				<Link to="/" className="brand-logo">
-					Inventory
+					Car Inventory
 				</Link>
         {links}
 			</div>

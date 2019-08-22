@@ -22,9 +22,17 @@ export const addProduct = product => {
 	};
 };
 
-export const uploadImage = (image) => {
-	return (dispatch, getState, {getFirebase}) => {
+export const editProduct = (id, product) => {
+	console.log(product);
+	return (dispatch, getState, {getFirebase, getFirestore}) => {
+		const firestore = getFirestore();
+		console.log('::product:::', product);
 
+		firestore.collection('products').doc(id).update(product).then(()=>{
+			dispatch({type: 'EDIT_PRODUCT', product})
+		}).catch(err => {
+			dispatch({type: 'EDIT_PRODUCT_ERROR', err})
+		})
 	}
 }
 
@@ -33,7 +41,6 @@ export const deleteProduct = id => {
 
 	return (dispatch, getState, { getFirestore }) => {
 		const firestore = getFirestore();
-		const userId = getState().firebase.auth.uid;
 		const products = getState().firestore;
 		console.log(products);
 		

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { addProduct } from "../store/actions/productActions";
+import { editProduct } from "../store/actions/productActions";
 import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { storage } from "../config/fbConfig";
 // import {storage} from 'firebase'
 
-class CreateProduct extends Component {
+class EditProduct extends Component {
 	state = {
 		productName: "",
 		model: "",
@@ -14,7 +16,25 @@ class CreateProduct extends Component {
 		url: "",
 		year: "",
 		inStock: false,
-	};
+  };
+  mapProductDetailsToState = (product) => {
+    if(product){
+      this.setState({
+        productName: product.productName ? product.productName : '',
+        model: product.model ? product.model : '',
+        quantity: product.quantity ? product.quantity : '',
+        color: product.color ? product.color : '',
+        url: product.url ? product.url : '',
+        year: product.year ? product.year : '',
+        inStock: product.inStock ? product.inStock : '',
+      })
+    }
+    
+  }
+  componentDidMount(){
+    const {product} = this.props;
+    this.mapProductDetailsToState(product)
+  }
 	handleChange = e => {
 		this.setState({
 			[e.target.id]: e.target.value,
@@ -49,41 +69,40 @@ class CreateProduct extends Component {
 	};
 
 	handleSubmit = e => {
+    const {id} = this.props;
 		e.preventDefault();
-		// console.log(this.state);
-		this.props.addProduct(this.state);
+		console.log(this.state);
+		this.props.editProduct(id, this.state);
 		this.props.history.push("/");
 	};
 	render() {
-		const { auth } = this.props;
+    const { auth} = this.props;
+    // console.log(this.state);
+    // console.log(product);
 		if (!auth.uid) return <Redirect to="/login" />;
 		return (
 			<div className="container">
 				<form onSubmit={this.handleSubmit} className="white z-depth-0">
-					<h5 className="green-text text-darken-3">Add Product</h5>
+					<h5 className="green-text text-darken-3">Edit Product</h5>
 					<div className="input-field">
 						<label htmlFor="productname">Product Name</label>
-						<input type="text" id="productName" onChange={this.handleChange} />
+						<input type="text" value={this.state.productName} id="productName" onChange={this.handleChange} />
 					</div>
 					<div className="input-field">
 						<label htmlFor="quantity">quantity</label>
-						<input type="text" id="quantity" onChange={this.handleChange} />
+						<input type="text" value={this.state.quantity} id="quantity" onChange={this.handleChange} />
 					</div>
-					{/* <div className="input-field">
-            <label htmlFor="image">image</label>
-            <input type="image" id="image" onChange={this.handleChange} alt="image"/>
-          </div> */}
 					<div className="row">
 						<div className="input-field col s3">
-							<input id="model" type="text" onChange={this.handleChange} />
+							<input id="model" value={this.state.model} type="text" onChange={this.handleChange} />
 							<label htmlFor="model">Model</label>
 						</div>
 						<div className="input-field col s3">
-							<input id="year" type="text" onChange={this.handleChange} />
+							<input id="year" value={this.state.year} type="text" onChange={this.handleChange} />
 							<label htmlFor="year">Year</label>
 						</div>
 						<div className="input-field col s3">
-							<input id="color" type="text" onChange={this.handleChange} />
+							<input id="color" value={this.state.color} type="text" onChange={this.handleChange} />
 							<label htmlFor="color">Color</label>
 						</div>
 					</div>
@@ -97,26 +116,38 @@ class CreateProduct extends Component {
 						</div>
 					</div>
 					<div className="input-field">
-						<button className="btn blue lighten-1 z-depth-1-half">Add Product</button>
+						<button className="btn blue lighten-1 z-depth-1-half">Save</button>
 					</div>
 				</form>
 			</div>
 		);
 	}
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+	const id = ownProps.match.params.id;
+	const products = state.firestore.data.products;
+	const product = products ? products[id] : null;
 	return {
+    product: product,
+    id: id,
 		auth: state.firebase.auth,
 	};
 };
 
+
+
 const mapDisatchToProps = dispatch => {
 	return {
-		addProduct: product => dispatch(addProduct(product)),
+		editProduct: (id, product) => dispatch(editProduct(id, product)),
 	};
 };
 
-export default connect(
-	mapStateToProps,
-	mapDisatchToProps
-)(CreateProduct);
+export default compose(
+	connect(mapStateToProps, mapDisatchToProps),
+	firestoreConnect([
+		{
+			collection: "products",
+		},
+	])
+)(EditProduct);
+
