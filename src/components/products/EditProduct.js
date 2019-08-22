@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { editProduct } from "../store/actions/productActions";
+import { editProduct } from "../../store/actions/productActions";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
-import { storage } from "../config/fbConfig";
+import { storage } from "../../config/fbConfig";
 // import {storage} from 'firebase'
 
 class EditProduct extends Component {

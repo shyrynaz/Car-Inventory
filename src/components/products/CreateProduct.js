@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { addProduct } from "../store/actions/productActions";
+import { addProduct } from "../../store/actions/productActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { storage } from "../config/fbConfig";
+import { storage } from "../../config/fbConfig";
 // import {storage} from 'firebase'
 
 class CreateProduct extends Component {

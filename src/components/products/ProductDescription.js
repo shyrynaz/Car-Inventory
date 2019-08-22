@@ -2,7 +2,7 @@ import React from "react";
 // import { Link } from 'react-router-dom';
 import moment from "moment";
 import { connect } from "react-redux";
-import { deleteProduct } from "../store/actions/productActions";
+import { deleteProduct } from "../../store/actions/productActions";
 import { Link } from 'react-router-dom';
 
 const ProductDescription = props => {

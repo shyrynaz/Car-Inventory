@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Navbar from './layout/Navbar';
-import Dashboard from './dashboard/Dashboard';
-import Product from './products/Product';
-import SignIn from './auth/signIn';
-import SignUp from './auth/SignUp';
-import CreateProduct from './products/CreateProduct';
-import EditProduct from "./products/EditProduct";
+import Dashboard from './components/dashboard/Dashboard';
+import Product from './components/products/Product';
+import SignIn from './components/auth/signIn';
+import SignUp from './components/auth/SignUp';
+import CreateProduct from './components/products/CreateProduct';
+import EditProduct from "./components/products/EditProduct";
 function App() {
 	return (
 		<BrowserRouter>
