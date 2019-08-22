@@ -9,7 +9,9 @@ const ProductLists = ({ products }) => {
 				products.map(product => {
 					return (
 						<Link to={`/product/${product.id}`} key={product.id}>
-							<ProcuctDescription product={product}  />
+							<div className="col s12 m6">
+								<ProcuctDescription product={product} />
+							</div>
 						</Link>
 					);
 				})}
