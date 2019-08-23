@@ -1,12 +1,10 @@
 import React from "react";
-// import { Link } from 'react-router-dom';
 import moment from "moment";
 import { connect } from "react-redux";
 import { deleteProduct } from "../../store/actions/productActions";
 import { Link } from 'react-router-dom';
 
 const ProductDescription = props => {
-	// console.log(product.id);
 	const { product, deleteProduct } = props;
 	return (
 		<div className="card z-depth-1 project-summary">

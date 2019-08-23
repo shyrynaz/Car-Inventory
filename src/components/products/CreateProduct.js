@@ -3,7 +3,7 @@ import { addProduct } from "../../store/actions/productActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { storage } from "../../config/fbConfig";
-// import {storage} from 'firebase'
+import Spinner from "../../layout/spinner"
 
 class CreateProduct extends Component {
 	state = {
@@ -13,7 +13,8 @@ class CreateProduct extends Component {
 		color: "",
 		url: "",
 		year: "",
-		inStock: false,
+		inStock: "",
+		uploading: false 
 	};
 	handleChange = e => {
 		this.setState({
@@ -28,6 +29,7 @@ class CreateProduct extends Component {
 		uploadTask.on(
 			"state_changed",
 			snapshot => {
+				this.setState({uploading: true})
 				console.log(":::Uploading:::", snapshot);
 			},
 			error => {
@@ -42,7 +44,10 @@ class CreateProduct extends Component {
 					.getDownloadURL()
 					.then(url => {
 						console.log(url);
-						this.setState({ url });
+						this.setState({ 
+							uploading: false,
+							url 
+						});
 					});
 			}
 		);
@@ -55,8 +60,10 @@ class CreateProduct extends Component {
 		this.props.history.push("/");
 	};
 	render() {
+		const {uploading} = this.state;
 		const { auth } = this.props;
 		if (!auth.uid) return <Redirect to="/login" />;
+		const spinner = uploading ? <Spinner /> : <img src={this.state.url} alt="" />; 
 		return (
 			<div className="container">
 				<form onSubmit={this.handleSubmit} className="white z-depth-0">
@@ -69,10 +76,6 @@ class CreateProduct extends Component {
 						<label htmlFor="quantity">quantity</label>
 						<input type="text" id="quantity" onChange={this.handleChange} />
 					</div>
-					{/* <div className="input-field">
-            <label htmlFor="image">image</label>
-            <input type="image" id="image" onChange={this.handleChange} alt="image"/>
-          </div> */}
 					<div className="row">
 						<div className="input-field col s3">
 							<input id="model" type="text" onChange={this.handleChange} />
@@ -95,6 +98,7 @@ class CreateProduct extends Component {
 						<div className="file-path-wrapper">
 							<input className="file-path validate" type="text" placeholder="Upload product image" />
 						</div>
+						{spinner}
 					</div>
 					<div className="input-field">
 						<button className="btn blue lighten-1 z-depth-1-half">Add Product</button>

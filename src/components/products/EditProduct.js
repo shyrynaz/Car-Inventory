@@ -5,7 +5,8 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { storage } from "../../config/fbConfig";
-// import {storage} from 'firebase'
+import Spinner from "../../layout/spinner"
+
 
 class EditProduct extends Component {
 	state = {
@@ -16,6 +17,7 @@ class EditProduct extends Component {
 		url: "",
 		year: "",
 		inStock: false,
+		uploading: false 
   };
   mapProductDetailsToState = (product) => {
     if(product){
@@ -48,6 +50,7 @@ class EditProduct extends Component {
 		uploadTask.on(
 			"state_changed",
 			snapshot => {
+				this.setState({uploading: true})
 				console.log(":::Uploading:::", snapshot);
 			},
 			error => {
@@ -62,7 +65,10 @@ class EditProduct extends Component {
 					.getDownloadURL()
 					.then(url => {
 						console.log(url);
-						this.setState({ url });
+						this.setState({ 
+							uploading: false,
+							url
+						 });
 					});
 			}
 		);
@@ -77,33 +83,33 @@ class EditProduct extends Component {
 	};
 	render() {
     const { auth} = this.props;
-    // console.log(this.state);
-    // console.log(product);
+    const { uploading } = this.state;
 		if (!auth.uid) return <Redirect to="/login" />;
+		const spinner = uploading ? <Spinner /> : <img src={this.state.url} alt="" />; 
 		return (
 			<div className="container">
 				<form onSubmit={this.handleSubmit} className="white z-depth-0">
 					<h5 className="green-text text-darken-3">Edit Product</h5>
 					<div className="input-field">
-						<label htmlFor="productname">Product Name</label>
+						<label className="active" htmlFor="productname">Product Name</label>
 						<input type="text" value={this.state.productName} id="productName" onChange={this.handleChange} />
 					</div>
 					<div className="input-field">
-						<label htmlFor="quantity">quantity</label>
+						<label className="active" htmlFor="quantity">quantity</label>
 						<input type="text" value={this.state.quantity} id="quantity" onChange={this.handleChange} />
 					</div>
 					<div className="row">
 						<div className="input-field col s3">
 							<input id="model" value={this.state.model} type="text" onChange={this.handleChange} />
-							<label htmlFor="model">Model</label>
+							<label className="active" htmlFor="model">Model</label>
 						</div>
 						<div className="input-field col s3">
 							<input id="year" value={this.state.year} type="text" onChange={this.handleChange} />
-							<label htmlFor="year">Year</label>
+							<label className="active" htmlFor="year">Year</label>
 						</div>
 						<div className="input-field col s3">
 							<input id="color" value={this.state.color} type="text" onChange={this.handleChange} />
-							<label htmlFor="color">Color</label>
+							<label className="active" htmlFor="color">Color</label>
 						</div>
 					</div>
 					<div className="file-field input-field">
@@ -114,6 +120,7 @@ class EditProduct extends Component {
 						<div className="file-path-wrapper">
 							<input className="file-path validate" type="text" placeholder="Upload product image" />
 						</div>
+						{spinner}
 					</div>
 					<div className="input-field">
 						<button className="btn blue lighten-1 z-depth-1-half">Save</button>
