@@ -98,6 +98,12 @@ class EditProduct extends Component {
 						<label className="active" htmlFor="quantity">quantity</label>
 						<input type="text" value={this.state.quantity} id="quantity" onChange={this.handleChange} />
 					</div>
+					<div>
+						<label>
+							<input type="checkbox" className="filled-in" />
+							<span>In Stock</span>
+						</label>
+					</div>
 					<div className="row">
 						<div className="input-field col s3">
 							<input id="model" value={this.state.model} type="text" onChange={this.handleChange} />

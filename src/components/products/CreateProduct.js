@@ -13,7 +13,7 @@ class CreateProduct extends Component {
 		color: "",
 		url: "",
 		year: "",
-		inStock: false,
+		inStock: true,
 		uploading: false,
 	};
 	handleChange = e => {
@@ -21,6 +21,13 @@ class CreateProduct extends Component {
 			[e.target.id]: e.target.value,
 		});
 	};
+
+	handleChecked = () => {
+		this.setState({
+			inStock: !this.state.inStock
+		})
+		console.log(this.state.inStock);
+	}
 
 	handleUpload = e => {
 		const image = e.target.files[0];
@@ -75,12 +82,12 @@ class CreateProduct extends Component {
 						<label htmlFor="quantity">quantity</label>
 						<input type="text" id="quantity" onChange={this.handleChange} />
 					</div>
-					<p>
+					<div>
 						<label>
-							<input type="checkbox" className="filled-in" />
+							<input type="checkbox" checked={this.state.inStock} className="filled-in" onChange={this.handleChecked} />
 							<span>In Stock</span>
 						</label>
-					</p>
+					</div>
 					<div className="row">
 						<div className="input-field col s3">
 							<input id="model" type="text" onChange={this.handleChange} />

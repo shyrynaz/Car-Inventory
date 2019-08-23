@@ -8,7 +8,7 @@ import moment from "moment";
 const Product = props => {
 	const { product, auth } = props;
 	console.log(product);
-  if (!auth.uid) return <Redirect to="/login" />;
+	if (!auth.uid) return <Redirect to="/login" />;
 	if (product) {
 		return (
 			<div className="container section project-details">
@@ -32,6 +32,9 @@ const Product = props => {
 						<div className="col s3">
 							<b>Color: </b>
 							{product.color}
+						</div>
+						<div className="col s3">
+							{product.inStock ? <b>In Stock</b> : null}
 						</div>
 						<div className="col s3">
 							{" "}
