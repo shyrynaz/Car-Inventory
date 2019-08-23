@@ -3,7 +3,7 @@ import { addProduct } from "../../store/actions/productActions";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { storage } from "../../config/fbConfig";
-import Spinner from "../../layout/spinner"
+import Spinner from "../../layout/spinner";
 
 class CreateProduct extends Component {
 	state = {
@@ -13,8 +13,8 @@ class CreateProduct extends Component {
 		color: "",
 		url: "",
 		year: "",
-		inStock: "",
-		uploading: false 
+		inStock: false,
+		uploading: false,
 	};
 	handleChange = e => {
 		this.setState({
@@ -29,7 +29,7 @@ class CreateProduct extends Component {
 		uploadTask.on(
 			"state_changed",
 			snapshot => {
-				this.setState({uploading: true})
+				this.setState({ uploading: true });
 				console.log(":::Uploading:::", snapshot);
 			},
 			error => {
@@ -44,9 +44,9 @@ class CreateProduct extends Component {
 					.getDownloadURL()
 					.then(url => {
 						console.log(url);
-						this.setState({ 
+						this.setState({
 							uploading: false,
-							url 
+							url,
 						});
 					});
 			}
@@ -55,15 +55,14 @@ class CreateProduct extends Component {
 
 	handleSubmit = e => {
 		e.preventDefault();
-		// console.log(this.state);
 		this.props.addProduct(this.state);
 		this.props.history.push("/");
 	};
 	render() {
-		const {uploading} = this.state;
+		const { uploading } = this.state;
 		const { auth } = this.props;
 		if (!auth.uid) return <Redirect to="/login" />;
-		const spinner = uploading ? <Spinner /> : <img src={this.state.url} alt="" />; 
+		const spinner = uploading ? <Spinner /> : <img src={this.state.url} alt="" />;
 		return (
 			<div className="container">
 				<form onSubmit={this.handleSubmit} className="white z-depth-0">
@@ -76,6 +75,12 @@ class CreateProduct extends Component {
 						<label htmlFor="quantity">quantity</label>
 						<input type="text" id="quantity" onChange={this.handleChange} />
 					</div>
+					<p>
+						<label>
+							<input type="checkbox" className="filled-in" />
+							<span>In Stock</span>
+						</label>
+					</p>
 					<div className="row">
 						<div className="input-field col s3">
 							<input id="model" type="text" onChange={this.handleChange} />

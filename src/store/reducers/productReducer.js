@@ -9,10 +9,10 @@ const initialState = {
 const productReducer = (state = initialState, action) => {
 	switch(action.type){
 		case 'ADD_PRODUCT':
-			console.log('product added', action.product);
+			console.log(':::product added:::', action.product);
 			return state;
 		case 'ADD_PRODUCT_ERROR':
-			console.log('add product error', action.err);
+			console.log('::::add product error:::', action.err);
 			return state;
 		case 'EDIT_PRODUCT':
 			console.log(':::Product edited:::', action.product)

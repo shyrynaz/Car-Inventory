@@ -1,5 +1,5 @@
 export const addProduct = product => {
-	return (dispatch, getState, { getFirebase, getFirestore }) => {
+	return (dispatch, getState, { getFirestore }) => {
 		const firestore = getFirestore();
 		const profile = getState().firebase.profile;
 		const merchantId = getState().firebase.auth;
@@ -24,7 +24,7 @@ export const addProduct = product => {
 
 export const editProduct = (id, product) => {
 	console.log(product);
-	return (dispatch, getState, {getFirebase, getFirestore}) => {
+	return (dispatch, { getFirestore}) => {
 		const firestore = getFirestore();
 		console.log('::product:::', product);
 
@@ -43,11 +43,6 @@ export const deleteProduct = id => {
 		const firestore = getFirestore();
 		const products = getState().firestore;
 		console.log(products);
-		
-
-		
-		// const previousProducts = getState().firestore.data;
-    // const updatedProducts = previousProducts.filter(product => product.id !== id);
     
 		firestore
 			.collection("products")
